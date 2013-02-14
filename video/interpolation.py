@@ -2,21 +2,21 @@
 #
 # @file: interpolation.py
 # @date: 14-02-2013
-# @lastmodified: Thu 14 Feb 2013 04:55:34 PM WET
+# @lastmodified: Thu 14 Feb 2013 05:27:30 PM WET
 #
-# @author:
+# @author:danielfbento <danielbento@overdestiny.com
 #
-# @description:
+# @description: Interpolate video frames and produce new frames with the
+# double size in dimensions using interpolation method
 #
 
-__author__ = ""
-__copyright__ = ""
-__credits__ = ""
-__licence__ = ""
-__version__ = ""
-__maintainer__ = ""
-__email__ = ""
-__status__ = ""
+__author__ = "Daniel Bento"
+__copyright__ = "Daniel Bento"
+__licence__ = "MIT"
+__version__ = "0.0.1"
+__maintainer__ = "Daniel Bento"
+__email__ = "danielbento@overdestiny.com"
+__status__ = "development"
 
 from numpy import *
 from pylab import *

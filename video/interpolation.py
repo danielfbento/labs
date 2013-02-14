@@ -2,7 +2,7 @@
 #
 # @file: interpolation.py
 # @date: 14-02-2013
-# @lastmodified: Thu 14 Feb 2013 04:09:08 PM WET
+# @lastmodified: Thu 14 Feb 2013 04:55:34 PM WET
 #
 # @author:
 #
@@ -46,22 +46,37 @@ def main():
     
         i = 0
         m = i
-        while i < len(matrix) and m < (len(result) - 2):
+        while i < (len(matrix)-1) and m < (len(result) - 2):
             j = 0
             k = j
             while j < (len(matrix[i]) - 1) and k < (len(result[i])-2):
                 c = interpolate(matrix[i][j],matrix[i][j+1])
                 l = interpolate(matrix[i][j],matrix[i+1][j])
                 result[m][k] = c[0]
+                
                 result[m][k+1] = c[1]
                 result[m][k+2] = c[2]
-                result[m][k] = l[0]
+                
                 result[m+1][k] = l[1]
                 result[m+2][k] = l[2]
+
+                c = interpolate(matrix[i+1][j],matrix[i+1][j+1])
+                l = interpolate(matrix[i][j+1],matrix[i+1][j+1])
+                
+                result[m+2][k+1] = c[1]
+                result[m+2][k+2] = c[2]
+
+                result[m+1][k+2] = l[1]
+
+                mid = interpolate(result[m+1][k],result[m+1][k+2])
+
+                result[m+1][k+1] = mid[1]
+
                 j = j + 1
-                k = k + 3
+                k = k + 2
+
             i = i + 1
-            m = m + 3
+            m = m + 2
         
         img = Image.fromarray(result)
         img.convert('L').save('%d.png' % a)

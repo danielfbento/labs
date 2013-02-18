@@ -2,7 +2,7 @@
 #
 # @file: interpolation.py
 # @date: 14-02-2013
-# @lastmodified: Thu 14 Feb 2013 05:27:30 PM WET
+# @lastmodified: Mon 18 Feb 2013 10:46:50 AM WET
 #
 # @author:danielfbento <danielbento@overdestiny.com
 #
@@ -24,11 +24,27 @@ import Image
 import cv
 import math
 
-def interpolate(p1,p2):
+def function_interp(p1,p2):
     a = float(p1)
     b = float(p2)
-    i = (a+b)/2
-    return [p1,int(i),p2]
+    if a > b:
+        i = a - abs(a-b)/2
+    if a < b:
+        i = a + abs(a-b)/2
+    if a == b:
+        i = a
+    return i
+
+def interpolate(p1,p2):
+    #a = float(p1)
+    #b = float(p2)
+    #i = (a+b)/2
+    #i = a + (a-b)*sin(math.pi/4)
+    #return [p1,int(i),p2]
+    r = int(function_interp(p1[0],p2[0]))
+    g = int(function_interp(p1[1],p2[1]))
+    b = int(function_interp(p1[2],p2[2]))
+    return [[p1[0],p1[1],p1[2]],[r,g,b],[p2[0],p2[1],p2[2]]]
 
 def main():
     
@@ -38,11 +54,13 @@ def main():
         a = a + 1
         img = cv.QueryFrame(capture)
 
-        tmp = cv.CreateImage(cv.GetSize(img),8,1)
-        cv.CvtColor(img, tmp, cv.CV_RGB2GRAY)
+        tmp = cv.CreateImage(cv.GetSize(img),8,3)
+        cv.CvtColor(img, tmp, cv.CV_BGR2HSV)
+        cv.CvtColor(tmp, tmp, cv.CV_HSV2RGB)
+
         matrix = asarray(cv.GetMat(tmp))
 
-        result = zeros((len(matrix)*2-1,len(matrix[0])*2-1))
+        result = zeros((len(matrix)*2-1,len(matrix[0])*2-1,3),'uint8')
     
         i = 0
         m = i
@@ -52,6 +70,7 @@ def main():
             while j < (len(matrix[i]) - 1) and k < (len(result[i])-2):
                 c = interpolate(matrix[i][j],matrix[i][j+1])
                 l = interpolate(matrix[i][j],matrix[i+1][j])
+
                 result[m][k] = c[0]
                 
                 result[m][k+1] = c[1]
@@ -77,9 +96,9 @@ def main():
 
             i = i + 1
             m = m + 2
-        
         img = Image.fromarray(result)
-        img.convert('L').save('%d.png' % a)
+        #img.show()
+        img.save('%d.png' % a)
 
 if __name__ == "__main__":
     main()

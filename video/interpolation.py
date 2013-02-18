@@ -2,7 +2,7 @@
 #
 # @file: interpolation.py
 # @date: 14-02-2013
-# @lastmodified: Mon 18 Feb 2013 10:46:50 AM WET
+# @lastmodified: Mon 18 Feb 2013 12:18:11 PM WET
 #
 # @author:danielfbento <danielbento@overdestiny.com
 #
@@ -29,18 +29,15 @@ def function_interp(p1,p2):
     b = float(p2)
     if a > b:
         i = a - abs(a-b)/2
+        i = a - abs(a-b)*cos(math.pi/3)
     if a < b:
         i = a + abs(a-b)/2
+        i = a + abs(a-b)*cos(math.pi/3)
     if a == b:
         i = a
     return i
 
 def interpolate(p1,p2):
-    #a = float(p1)
-    #b = float(p2)
-    #i = (a+b)/2
-    #i = a + (a-b)*sin(math.pi/4)
-    #return [p1,int(i),p2]
     r = int(function_interp(p1[0],p2[0]))
     g = int(function_interp(p1[1],p2[1]))
     b = int(function_interp(p1[2],p2[2]))
@@ -97,7 +94,6 @@ def main():
             i = i + 1
             m = m + 2
         img = Image.fromarray(result)
-        #img.show()
         img.save('%d.png' % a)
 
 if __name__ == "__main__":
